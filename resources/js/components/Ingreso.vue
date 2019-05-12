@@ -126,7 +126,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">Usuario</label>
                         <div class="col-md-9">
-                           <input type="text" v-model="usuario" class="form-control" placeholder="Nombre usuario">
+                           <input type="text" v-model="ingreso" class="form-control" placeholder="Nombre usuario">
                            <!-- <span class="help-block">(*) Ingrese el nombre de la producto</span> -->
                         </div>
                     </div>
