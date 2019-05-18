@@ -44,6 +44,41 @@ class ArticuloController extends Controller
 
     }
 
+    public function listarArticulos(Request $request)
+    {
+        if(!request()->ajax()) return redirect('/');
+        $buscar  = $request->buscar;
+        $criterio  = $request->criterio;
+
+        if($buscar == ''){
+
+            $articulos = Articulo::join('categorias','articulos.categoria_id','=','categorias.id')
+                                    ->select('articulos.id','articulos.categoria_id','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+                                    ->where('articulos.condicion',1)
+                                    ->orderBy('articulos.id', 'DESC')->paginate(10);
+        }else{
+
+            $articulos = Articulo::join('categorias','articulos.categoria_id','=','categorias.id')
+                                    ->select('articulos.id','articulos.categoria_id','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+                                    ->where('articulos.condicion',1)
+                                    ->Where('articulos.'.$criterio, 'like', '%'. $buscar .'%')
+                                    ->orderBy('articulos.id', 'DESC')->paginate(10);
+            
+        }
+
+        return [ 'articulos' => $articulos ];
+
+    }
+
+    public function bucarArticulo(Request $request){
+        if(!request()->ajax()) return redirect('/');
+        $filtro = $request->filtro;
+        $articulo = Articulo::where('codigo',$filtro)
+                            ->select('id','nombre')->first();
+
+        return ['articulo' => $articulo];
+    }
+
     public function store(Request $request)
     {
         if(!request()->ajax()) return redirect('/');
