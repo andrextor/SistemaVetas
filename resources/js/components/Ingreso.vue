@@ -252,7 +252,7 @@
             <!-- Ver ingreso -->
             <template v-else-if="listado==2">
                <div class="card-body" >
-                    <div v-if="this.esatdo =='Anulado'" class="col-md-12"> <h2 style="color:red;text-align: center;">Ingreso Anulado {{diaAnulado}}></h2></div>
+                    <div v-if="estado=='Anulado'" class="col-md-12"> <h2 style="color:red;text-align: center;">Ingreso Anulado {{diaAnulado}}</h2></div>
                   <div class="form-group row border">
                         <div class="col-md-9">
                            <label for="">Proveedor(*)</label>
@@ -291,7 +291,7 @@
                               </thead>
                               <tbody v-if="detalleIngreso.length">
                                  <tr v-for="deta in detalleIngreso" :key="deta.id"> 
-                                    <td v-text="deta.nombre">Nombre Artículo </td>
+                                    <td v-text="deta.articulo">Nombre Artículo </td>
                                     <td v-text="deta.precio"></td>
                                     <td v-text="deta.cantidad"></td>
                                     <td>{{ deta.precio * deta.cantidad}}</td>
@@ -508,7 +508,6 @@ export default {
    },
    methods: {
       agregarDetalleModal(articulo){
-             
             if(this.encuentra(articulo.id)){              
                   this.alertaWarning("El articulo " +  articulo.nombre+ " ya se encuentra agregado");
             }else{
@@ -519,15 +518,6 @@ export default {
                nombre_articulo: articulo.nombre,
                cantidad_articulo : 1});            
             }
-      },
-      listarArticulo(buscar, criterio) {
-         var url = "/articulo/listar?buscar="+buscar + "&criterio=" + criterio;
-         axios.get(url).then((res) => {
-            var res = res.data;
-            this.articulos = res.articulos.data;
-            
-         });
-       
       },
       listarIngreso(page, buscar, criterio) {
          var url = "/ingreso?page=" + page + "&buscar=" +  buscar + "&criterio=" + criterio;
@@ -590,27 +580,6 @@ export default {
                }
             }
             return sw;
-      },
-      registrarUsuario() {
-         if (this.validacionCliente()) {
-            return;
-         }
-         axios.post("/user/registrar", {
-               'nombre': this.nombre,
-               'tipo_documento': this.tipo_documento,
-               'numero_documento': this.numero_documento,
-               'direccion': this.direccion,
-               'telefono': this.telefono,
-               'email': this.email,
-               'rol_id': this.rol_id,
-               'usuario': this.usuario,
-               'password': this.password,
-            }).then(response => {
-               this.cerrarModal();
-               this.alertaSuccess('Usuario Creado Exitosamente');
-               this.listarIngreso(1, "", "nombre");
-               this.usuarios = response.data;
-            });
       },
       registrarIngreso(){
          if(this.validacionIngreso()){ 
@@ -836,7 +805,7 @@ export default {
             this.total = datosIngreso.total;
             this.diaAnulado = datosIngreso.updated_at;
             this.estado = datosIngreso.estado
-            console.log(datosIngreso.update_at);
+            
          }).catch((error)=>{
             console.log(error)
          });
@@ -845,6 +814,7 @@ export default {
             var url = '/ingreso/detalle?id=' + id;
             axios.get(url).then((res) => {
             var response = res.data;
+            
             this.detalleIngreso = response.detalleIngreso;
  
          }).catch((error)=>{

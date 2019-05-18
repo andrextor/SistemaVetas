@@ -68,7 +68,7 @@ class IngresoController extends Controller
             $ingreso->usuario_id = \Auth::user()->id;
             $ingreso->tipo_comprobante = $request->tipo_comprobante;
             $ingreso->serie_comprobante = $request->serie_comprobante;
-            $ingreso->numero_comprobante = $request->numero_comprobante;
+            $ingreso->num_comprobante = $request->num_comprobante;
             $ingreso->fecha_hora = $mytime->toDateString();
             $ingreso->impuesto = $request->impuesto;
             $ingreso->total = $request->total;
@@ -83,8 +83,8 @@ class IngresoController extends Controller
                 $detalle = new DetalleIngreso();
                 $detalle->ingreso_id = $ingreso->id;
                 $detalle->articulo_id =  $det['articulo_id'];
-                $detalle->cantidad =  $det['cantidad'];
-                $detalle->precio =  $det['precio'];
+                $detalle->cantidad =  $det['cantidad_articulo'];
+                $detalle->precio =  $det['precio_articulo'];
                 $detalle->save();
             }
           
@@ -96,12 +96,38 @@ class IngresoController extends Controller
         
     }
 
-    public function desactivar(Request $request){
+    public function anular(Request $request){
         
         if(!request()->ajax()) return redirect('/');
         $ingreso = Ingreso::findOrFail($request->id);
         $ingreso->estado = "Anulado";
         $ingreso->save();
         
+    }
+
+    public function obtenerCabecera(Request $request){
+        if (!$request->ajax()) return redirect('/');
+ 
+        $id = $request->id;
+        $datosIngreso = Ingreso::join('personas','ingresos.proveedor_id','=','personas.id')
+        ->join('users','ingresos.usuario_id','=','users.id')
+        ->select('ingresos.id','ingresos.tipo_comprobante','ingresos.serie_comprobante',
+        'ingresos.num_comprobante','ingresos.fecha_hora','ingresos.impuesto','ingresos.total',
+        'ingresos.estado','ingresos.updated_at','personas.nombre','users.usuario')
+        ->where('ingresos.id','=',$id)
+        ->orderBy('ingresos.id', 'desc')->first();
+         
+        return ['datosIngreso' => $datosIngreso];
+    }
+    public function obtenerDetalle(Request $request){
+        if (!$request->ajax()) return redirect('/');
+ 
+        $id = $request->id;
+        $detalleIngreso = DetalleIngreso::join('articulos','detalle_ingresos.articulo_id','=','articulos.id')
+        ->select('detalle_ingresos.cantidad','detalle_ingresos.precio','articulos.nombre as articulo')
+        ->where('detalle_ingresos.ingreso_id','=',$id)
+        ->orderBy('detalle_ingresos.id', 'desc')->get();
+         
+        return ['detalleIngreso' => $detalleIngreso];
     }
 }
