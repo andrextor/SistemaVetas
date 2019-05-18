@@ -343,7 +343,6 @@
                   </button>
                </div>
                <div class="modal-body">
-<<<<<<< HEAD
                   <form action method="post" enctype="multipart/form-data" class="form-horizontal">
                    
                     <div class="form-group row">
@@ -369,8 +368,6 @@
                            <!-- <span class="help-block">(*) Ingrese el nombre de la producto</span> -->
                         </div>
                     </div>
-=======
->>>>>>> dev
                      <div class="form-group row">
                         <div class="col-md-6">
                            <div class="input-group">
