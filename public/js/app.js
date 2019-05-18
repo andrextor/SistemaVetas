@@ -5445,32 +5445,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
-    listarArticulo: function listarArticulo(buscar, criterio) {
-      var _this = this;
-
-      var url = "/articulo/listar?buscar=" + buscar + "&criterio=" + criterio;
-      axios.get(url).then(function (res) {
-        var res = res.data;
-        _this.articulos = res.articulos.data;
-      });
-    },
     listarIngreso: function listarIngreso(page, buscar, criterio) {
-      var _this2 = this;
+      var _this = this;
 
       var url = "/ingreso?page=" + page + "&buscar=" + buscar + "&criterio=" + criterio;
       axios.get(url).then(function (res) {
         var res = res.data;
-        _this2.ingresos = res.ingresos.data;
-        _this2.pagination = res.pagination;
-        _this2.loading = false;
+        _this.ingresos = res.ingresos.data;
+        _this.pagination = res.pagination;
+        _this.loading = false;
       });
     },
     selectRol: function selectRol() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.get("/user/select").then(function (response) {
         var res = response.data;
-        _this3.roles = res.roles;
+        _this2.roles = res.roles;
       });
     },
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
@@ -5508,35 +5499,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return sw;
     },
-    registrarUsuario: function registrarUsuario() {
-      var _this4 = this;
-
-      if (this.validacionCliente()) {
-        return;
-      }
-
-      axios.post("/user/registrar", {
-        'nombre': this.nombre,
-        'tipo_documento': this.tipo_documento,
-        'numero_documento': this.numero_documento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'rol_id': this.rol_id,
-        'usuario': this.usuario,
-        'password': this.password
-      }).then(function (response) {
-        _this4.cerrarModal();
-
-        _this4.alertaSuccess('Usuario Creado Exitosamente');
-
-        _this4.listarIngreso(1, "", "nombre");
-
-        _this4.usuarios = response.data;
-      });
-    },
     registrarIngreso: function registrarIngreso() {
-      var _this5 = this;
+      var _this3 = this;
 
       if (this.validacionIngreso()) {
         return;
@@ -5551,21 +5515,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'total': this.total,
         'data': this.detalleIngresos
       }).then(function (res) {
-        _this5.listado = 1;
-        _this5.tipo_comprobante = 'FACTURA';
-        _this5.serie_comprobante = '';
-        _this5.num_comprobante = '';
-        _this5.impuesto = 0.19;
-        _this5.total = 0.0;
-        _this5.proveedor_id = 0;
-        _this5.articulo_id = 0;
-        _this5.articulo = '';
-        _this5.cantidad = 0;
-        _this5.precio = 0;
-        _this5.selected = '';
-        _this5.detalleIngresos = [];
+        _this3.listado = 1;
+        _this3.tipo_comprobante = 'FACTURA';
+        _this3.serie_comprobante = '';
+        _this3.num_comprobante = '';
+        _this3.impuesto = 0.19;
+        _this3.total = 0.0;
+        _this3.proveedor_id = 0;
+        _this3.articulo_id = 0;
+        _this3.articulo = '';
+        _this3.cantidad = 0;
+        _this3.precio = 0;
+        _this3.selected = '';
+        _this3.detalleIngresos = [];
 
-        _this5.listarIngreso(1, '', '');
+        _this3.listarIngreso(1, '', '');
       });
     },
     alertaSuccess: function alertaSuccess(mensaje) {
@@ -5593,7 +5557,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     actualizarCliente: function actualizarCliente() {
-      var _this6 = this;
+      var _this4 = this;
 
       if (this.validacionCliente()) {
         return;
@@ -5610,19 +5574,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'rol_id': this.rol_id,
         'usuario': this.usuario
       }).then(function (response) {
-        _this6.cerrarModal();
+        _this4.cerrarModal();
 
-        _this6.alertaSuccess('Usuario actualizado Exitosamente');
+        _this4.alertaSuccess('Usuario actualizado Exitosamente');
 
-        _this6.listarIngreso(_this6.pagination.current_page, "", "nombre");
+        _this4.listarIngreso(_this4.pagination.current_page, "", "nombre");
 
-        _this6.usuarios = response.data;
+        _this4.usuarios = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     anularIngreso: function anularIngreso(id) {
-      var _this7 = this;
+      var _this5 = this;
 
       var swalWithBootstrapButtons = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
         customClass: {
@@ -5646,9 +5610,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }).then(function (response) {
             var res = response.data;
 
-            _this7.alertaSuccess('El Ingreso ha sido anulado con Éxito');
+            _this5.alertaSuccess('El Ingreso ha sido anulado con Éxito');
 
-            _this7.listarIngreso(_this7.pagination.current_page, "", "num_comprobante");
+            _this5.listarIngreso(_this5.pagination.current_page, "", "num_comprobante");
           })["catch"](function (error) {
             console.log(error);
           }); // Read more about handling dismissals
@@ -5699,7 +5663,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.detalleIngresos = [];
     },
     selectProveedores: function selectProveedores(search, loading) {
-      var _this8 = this;
+      var _this6 = this;
 
       loading(true);
       axios.get('/proveedor/select?filtro=' + search).then(function (response) {
@@ -5707,7 +5671,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         q: search;
 
-        _this8.proveedores = res.proveedores;
+        _this6.proveedores = res.proveedores;
         loading(false);
       });
     },
@@ -5715,19 +5679,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.proveedor_id = val1.id;
     },
     buscarArticulo: function buscarArticulo() {
-      var _this9 = this;
+      var _this7 = this;
 
       var filtro = this.codigo;
       axios.get('/articulo/buscar?filtro=' + filtro).then(function (response) {
         var res = response.data; // console.log(this.articulo);
 
         if (res.articulo) {
-          _this9.articulo = res.articulo;
-          _this9.nombre_articulo = _this9.articulo.nombre;
-          _this9.articulo_id = _this9.articulo.id;
+          _this7.articulo = res.articulo;
+          _this7.nombre_articulo = _this7.articulo.nombre;
+          _this7.articulo_id = _this7.articulo.id;
         } else {
-          _this9.nombre_articulo = "No se encontro nigun articulo con el codigo";
-          _this9.articulo_id = 0;
+          _this7.nombre_articulo = "No se encontro nigun articulo con el codigo";
+          _this7.articulo_id = 0;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -5738,7 +5702,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.proveedores = [];
     },
     verIngreso: function verIngreso(id) {
-      var _this10 = this;
+      var _this8 = this;
 
       this.listado = 2; //Obtener los datos del ingreso
 
@@ -5747,15 +5711,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get(url).then(function (res) {
         var res = res.data;
         datosIngreso = res.datosIngreso;
-        _this10.proveedor = datosIngreso.nombre;
-        _this10.serie_comprobante = datosIngreso.serie_comprobante;
-        _this10.num_comprobante = datosIngreso.num_comprobante;
-        _this10.tipo_comprobante = datosIngreso.tipo_comprobante;
-        _this10.total_impuesto = datosIngreso.impuesto;
-        _this10.total = datosIngreso.total;
-        _this10.diaAnulado = datosIngreso.updated_at;
-        _this10.estado = datosIngreso.estado;
-        console.log(datosIngreso.update_at);
+        _this8.proveedor = datosIngreso.nombre;
+        _this8.serie_comprobante = datosIngreso.serie_comprobante;
+        _this8.num_comprobante = datosIngreso.num_comprobante;
+        _this8.tipo_comprobante = datosIngreso.tipo_comprobante;
+        _this8.total_impuesto = datosIngreso.impuesto;
+        _this8.total = datosIngreso.total;
+        _this8.diaAnulado = datosIngreso.updated_at;
+        _this8.estado = datosIngreso.estado;
       })["catch"](function (error) {
         console.log(error);
       }); //Obtener los datos del detalle
@@ -5763,7 +5726,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var url = '/ingreso/detalle?id=' + id;
       axios.get(url).then(function (res) {
         var response = res.data;
-        _this10.detalleIngreso = response.detalleIngreso;
+        _this8.detalleIngreso = response.detalleIngreso;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -74446,7 +74409,7 @@ var render = function() {
               : _vm.listado == 2
               ? [
                   _c("div", { staticClass: "card-body" }, [
-                    this.esatdo == "Anulado"
+                    _vm.estado == "Anulado"
                       ? _c("div", { staticClass: "col-md-12" }, [
                           _c(
                             "h2",
@@ -74458,9 +74421,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "Ingreso Anulado " +
-                                  _vm._s(_vm.diaAnulado) +
-                                  ">"
+                                "Ingreso Anulado " + _vm._s(_vm.diaAnulado)
                               )
                             ]
                           )
@@ -74551,7 +74512,9 @@ var render = function() {
                                             "td",
                                             {
                                               domProps: {
-                                                textContent: _vm._s(deta.nombre)
+                                                textContent: _vm._s(
+                                                  deta.articulo
+                                                )
                                               }
                                             },
                                             [_vm._v("Nombre Artículo ")]
