@@ -23,14 +23,23 @@ Route::group(['middleware' => ['auth']], function () {
 
                                     /** Articulos*/
         Route::get('/articulo', 'ArticuloController@index')->name('articulo.index');
+        Route::get('/articulo/listar', 'ArticuloController@listarArticulos')->name('articulo.listar');
+        Route::get('/articulo/buscar', 'ArticuloController@bucarArticulo')->name('articulo.buscar');
         Route::post('/articulo/registrar', 'ArticuloController@store')->name('articulo.store');
         Route::put('/articulo/estado', 'ArticuloController@status')->name('articulo.status');
         Route::put('/articulo/actualizar', 'ArticuloController@update')->name('articulo.update');
 
                                       /** Proveedor*/
         Route::get('/proveedor', 'ProveedorController@index')->name('proveedor.index');
+        Route::get('/proveedor/select', 'ProveedorController@selectProveedor')->name('proveedor.select');
         Route::post('/proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
         Route::put('/proveedor/actualizar', 'ProveedorController@update')->name('proveedor.status');
+                                          /** Ingreso*/
+        Route::get('/ingreso', 'IngresoController@index')->name('ingreso.index');
+        Route::post('/ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
+        Route::put('/ingreso/anular', 'IngresoController@anular')->name('ingreso.anular');   
+        Route::get('/ingreso/cabecera', 'IngresoController@obtenerCabecera')->name('ingreso.cabecera');
+        Route::get('/ingreso/detalle', 'IngresoController@obtenerDetalle')->name('ingreso.detalle');
     
     });
 
@@ -55,12 +64,15 @@ Route::group(['middleware' => ['auth']], function () {
 
                                     /** Articulos*/
         Route::get('/articulo', 'ArticuloController@index')->name('articulo.index');
+        Route::get('/articulo/buscar', 'ArticuloController@bucarArticulo')->name('articulo.buscar');
+        Route::get('/articulo/listar', 'ArticuloController@listarArticulos')->name('articulo.listar');
         Route::post('/articulo/registrar', 'ArticuloController@store')->name('articulo.store');
         Route::put('/articulo/estado', 'ArticuloController@status')->name('articulo.status');
         Route::put('/articulo/actualizar', 'ArticuloController@update')->name('articulo.update');
 
                                     /** Proveedor*/
         Route::get('/proveedor', 'ProveedorController@index')->name('proveedor.index');
+        Route::get('/proveedor/select', 'ProveedorController@selectProveedor')->name('proveedor.select');
         Route::post('/proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
         Route::put('/proveedor/actualizar', 'ProveedorController@update')->name('proveedor.status');
 
@@ -85,7 +97,9 @@ Route::group(['middleware' => ['auth']], function () {
                                       /** Ingreso*/
         Route::get('/ingreso', 'IngresoController@index')->name('ingreso.index');
         Route::post('/ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
-        Route::get('/ingreso/desactivar', 'IngresoController@desactivar')->name('ingreso.desactivar');   
+        Route::put('/ingreso/anular', 'IngresoController@anular')->name('ingreso.anular');   
+        Route::get('/ingreso/cabecera', 'IngresoController@obtenerCabecera')->name('ingreso.cabecera');
+        Route::get('/ingreso/detalle', 'IngresoController@obtenerDetalle')->name('ingreso.detalle');
     });
 });
 

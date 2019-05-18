@@ -13,10 +13,7 @@
    <div class="card">
     <div class="card-header">
      <i class="fa fa-align-justify"></i> Categorías
-     <button
-      type="button"
-      class="btn btn-secondary"
-      @click="abrirModal('categoria','registrar')"  >
+     <button type="button"  class="btn btn-secondary"   @click="abrirModal('categoria','registrar')"  >
       <i class="icon-plus"></i>&nbsp;Nuevo
      </button>
     </div>
@@ -28,11 +25,7 @@
          <option value="nombre">Nombre</option>
          <option value="descripcion">Descripción</option>
         </select>
-        <input
-         type="text"
-         class="form-control"
-         placeholder="Texto a buscar"
-         v-model="buscar"
+        <input type="text" class="form-control" placeholder="Texto a buscar" v-model="buscar"
          @keyup.enter="listarCategoria(1,buscar,criterio)">
         <button type="submit" @click="listarCategoria(1,buscar,criterio)" class="btn btn-primary">
          <i class="fa fa-search"></i> Buscar
@@ -58,9 +51,7 @@
           @click="abrirModal('categoria','actualizar',categoria)">
           <i class="icon-pencil"></i>
          </button> &nbsp;
-         <button
-          type="button"
-          v-bind:class="[ categoria.condicion ? 'btn btn-danger btn-sm' : 'btn btn-success btn-sm']"
+         <button type="button" v-bind:class="[ categoria.condicion ? 'btn btn-danger btn-sm' : 'btn btn-success btn-sm']"
           @click="cambiarEstadoCategoria(categoria.id)">
           <i v-if="categoria.condicion" class="icon-trash"></i>
           <i v-else class="icon-check"></i>
@@ -98,14 +89,9 @@
    <!-- Fin ejemplo de tabla Listado -->
   </div>
   <!--Inicio del modal agregar/actualizar-->
-  <div
-   class="modal fade"
-   tabindex="-1"
-   :class="{'mostrar' : modal  }"
-   aria-labelledby="myModalLabel"
+  <div  class="modal fade"   tabindex="-1"   :class="{'mostrar' : modal  }"   aria-labelledby="myModalLabel"
    style="display: none;"
-   aria-hidden="true"
-  >
+   aria-hidden="true">
    <div class="modal-dialog modal-primary modal-lg" role="document">
     <div class="modal-content">
      <div class="modal-header">
@@ -126,12 +112,7 @@
        <div class="form-group row">
         <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
         <div class="col-md-9">
-         <input
-          type="text"
-          v-model="descripcion"
-          class="form-control"
-          placeholder="Ingrese Una descripcion"
-         >
+         <input  type="text" v-model="descripcion" class="form-control"   placeholder="Ingrese Una descripcion">
         </div>
        </div>
        <div v-show="errorCategoria" class="form-group-row div-error">
@@ -143,18 +124,10 @@
      </div>
      <div class="modal-footer">
       <button type="button" class="btn btn-secondary" @click="cerrarModal">Cerrar</button>
-      <button
-       type="button"
-       v-if="tipoAccion == 1"
-       class="btn btn-primary"
-       @click="registrarCategoria"
-      >Guardar</button>
-      <button
-       type="button"
-       v-if="tipoAccion == 2"
-       class="btn btn-primary"
-       @click="actualizarCategoria"
-      >Actualizar</button>
+      <button type="button" v-if="tipoAccion == 1"  class="btn btn-primary"   @click="registrarCategoria">
+          Guardar
+          </button>
+      <button type="button" v-if="tipoAccion == 2" class="btn btn-primary"  @click="actualizarCategoria">Actualizar</button>
      </div>
     </div>
     <!-- /.modal-content -->
